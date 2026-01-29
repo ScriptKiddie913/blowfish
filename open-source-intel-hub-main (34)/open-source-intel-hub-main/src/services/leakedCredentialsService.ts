@@ -1,8 +1,12 @@
 // Leaked Credentials Search Service
 // Queries the Neon PostgreSQL database for leaked credentials via Supabase Edge Function
 
+// Get Supabase configuration from environment variables
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://taumszakhdnwozcnmrtd.supabase.co';
+const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRhdW1zemFraGRud296Y25tcnRkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjcyNzQzMjQsImV4cCI6MjA4Mjg1MDMyNH0.EkklAF_2aqI6DV61wdsql6njcaQ4iTQIVyJJRy4hxaI';
+
 // Direct endpoint for the leaked-credentials-search function
-const EDGE_FUNCTION_URL = 'https://taumszakhdnwozcnmrtd.supabase.co/functions/v1/leaked-credentials-search';
+const EDGE_FUNCTION_URL = `${SUPABASE_URL}/functions/v1/leaked-credentials-search`;
 
 export interface LeakedCredential {
   id: number;
@@ -48,11 +52,13 @@ export async function searchLeakedCredentials(
   try {
     console.log(`[LeakedCredentialsService] Searching: ${query}, type: ${searchType}`);
     
-    // Call the Edge Function directly
+    // Call the Edge Function with proper authorization
     const response = await fetch(EDGE_FUNCTION_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+        'apikey': SUPABASE_ANON_KEY,
       },
       body: JSON.stringify({
         query: query.trim(),

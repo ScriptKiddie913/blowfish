@@ -9,20 +9,8 @@
     <div id="result"></div>
 
     <script>
-        // SECURITY: Replace these with your actual values - DO NOT commit real keys
-        const SUPABASE_URL = 'YOUR_SUPABASE_URL_HERE';
-        const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY_HERE';
-
-        // Helper function to escape HTML and prevent XSS
-        function escapeHtml(unsafe) {
-            const div = document.createElement('div');
-            div.textContent = unsafe;
-            return div.innerHTML;
-        }
-
         async function testFunction() {
-            const url = `${SUPABASE_URL}/functions/v1/leaked-credentials-search`;
-            const resultDiv = document.getElementById('result');
+            const url = 'https://taumszakhdnwozcnmrtd.supabase.co/functions/v1/leaked-credentials-search';
             
             try {
                 console.log('Testing function with basic request...');
@@ -30,7 +18,8 @@
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+                        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRhdW1zemFraGRud296Y25tcnRkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjcyNzQzMjQsImV4cCI6MjA4Mjg1MDMyNH0.EkklAF_2aqI6DV61wdsql6njcaQ4iTQIVyJJRy4hxaI',
+                        'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRhdW1zemFraGRud296Y25tcnRkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjcyNzQzMjQsImV4cCI6MjA4Mjg1MDMyNH0.EkklAF_2aqI6DV61wdsql6njcaQ4iTQIVyJJRy4hxaI'
                     },
                     body: JSON.stringify({
                         searchTerm: 'test@example.com',
@@ -44,18 +33,11 @@
                 const text = await response.text();
                 console.log('Response text:', text);
                 
-                // Use textContent to prevent XSS
-                resultDiv.innerHTML = '';
-                const statusP = document.createElement('p');
-                statusP.textContent = `Status: ${response.status}`;
-                const responseP = document.createElement('p');
-                responseP.textContent = `Response: ${text}`;
-                
-                resultDiv.appendChild(statusP);
-                resultDiv.appendChild(responseP);
+                document.getElementById('result').innerHTML = 
+                    `<p>Status: ${response.status}</p><p>Response: ${text}</p>`;
             } catch (error) {
                 console.error('Error:', error);
-                resultDiv.textContent = `Error: ${error.message}`;
+                document.getElementById('result').innerHTML = `<p>Error: ${error.message}</p>`;
             }
         }
     </script>

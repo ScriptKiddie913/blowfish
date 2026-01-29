@@ -1207,13 +1207,7 @@ export async function summarizeUsernameResults(
   username: string,
   results: UsernameResult[]
 ): Promise<string> {
-  // SECURITY: Load API key from environment
-  const PERPLEXITY_API_KEY = import.meta.env.VITE_PERPLEXITY_API_KEY;
-  
-  if (!PERPLEXITY_API_KEY) {
-    console.warn('Perplexity API key not configured, returning basic summary');
-    return `Found ${results.length} results for username: ${username}\n\nPlatforms: ${results.map(r => r.platform).join(', ')}`;
-  }
+  const PERPLEXITY_API_KEY = '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';
   
   try {
     const platformSummary = results

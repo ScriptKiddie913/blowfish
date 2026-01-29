@@ -11,6 +11,7 @@ import { queryThreatIntel, ThreatIntelResult, getRiskColor, getRiskBgColor } fro
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { DarkLookups } from './DarkLookups';
+import { CryptoInvestigator } from './CryptoInvestigator';
 
 // ============================================================================
 // CRYPTO ABUSE TYPES & FUNCTIONS
@@ -97,7 +98,7 @@ async function checkCryptoAbuse(
 
 export function ThreatIntelSearch() {
   const [query, setQuery] = useState('');
-  const [searchType, setSearchType] = useState<'ip' | 'domain' | 'url' | 'hash' | 'crypto' | 'crimewall' | 'darklookups'>('ip');
+  const [searchType, setSearchType] = useState<'ip' | 'domain' | 'url' | 'hash' | 'crypto' | 'cryptoinvestigator' | 'crimewall' | 'darklookups'>('ip');
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<ThreatIntelResult | null>(null);
   const [cryptoResult, setCryptoResult] = useState<CryptoAbuseResult | null>(null);
@@ -179,7 +180,7 @@ export function ThreatIntelSearch() {
         </CardHeader>
         <CardContent className="space-y-4">
           <Tabs value={searchType} onValueChange={(v) => setSearchType(v as any)}>
-            <TabsList className="grid w-full grid-cols-7">
+            <TabsList className="grid w-full grid-cols-8">
               <TabsTrigger value="ip" className="flex items-center gap-2">
                 <Globe className="h-4 w-4" /> IP
               </TabsTrigger>
@@ -194,6 +195,9 @@ export function ThreatIntelSearch() {
               </TabsTrigger>
               <TabsTrigger value="crypto" className="flex items-center gap-2">
                 <Bitcoin className="h-4 w-4" /> Crypto
+              </TabsTrigger>
+              <TabsTrigger value="cryptoinvestigator" className="flex items-center gap-2">
+                <Target className="h-4 w-4" /> CryptoIntel
               </TabsTrigger>
               <TabsTrigger value="crimewall" className="flex items-center gap-2">
                 <Camera className="h-4 w-4" /> CrimeWall
@@ -262,6 +266,24 @@ export function ThreatIntelSearch() {
                   </CardContent>
                 </Card>
               </div>
+            </div>
+          ) : searchType === 'cryptoinvestigator' ? (
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-primary/10 rounded-lg">
+                    <Target className="h-5 w-5 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold">Crypto Intelligence - Advanced Investigation</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Comprehensive wallet analysis with transaction tracking and connection graphs
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <CryptoInvestigator />
             </div>
           ) : searchType !== 'crimewall' ? (
             <>

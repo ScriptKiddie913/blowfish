@@ -1,5 +1,4 @@
 import { supabase } from "@/integrations/supabase/client";
-import { sanitizeInput, maskApiKey } from "@/lib/securityUtils";
 
 export interface ThreatIntelResult {
   success: boolean;
@@ -49,34 +48,26 @@ export async function queryThreatIntel(
   sources: string[] = ['virustotal', 'abuse', 'circl', 'malware_bazaar', 'urlhaus']
 ): Promise<ThreatIntelResult> {
   try {
-    // SECURITY: Sanitize target input
-    const sanitizedTarget = sanitizeInput(target, 1000);
-    
-    if (!sanitizedTarget) {
-      throw new Error('Invalid target input');
-    }
-
-    // SECURITY: Get API key from environment - Vite requires VITE_ prefix
+    // Get API key from environment - Vite requires VITE_ prefix
     const apiKey = import.meta.env.VITE_VIRUSTOTAL_API_KEY;
     
     if (!apiKey) {
        console.error("[ThreatIntel] VITE_VIRUSTOTAL_API_KEY is missing in frontend env!");
        console.error("[ThreatIntel] Available env keys:", Object.keys(import.meta.env).filter(k => k.startsWith('VITE_')));
     } else {
-       // SECURITY: Use maskApiKey to avoid logging full key
-       console.log("[ThreatIntel] VITE_VIRUSTOTAL_API_KEY is present:", maskApiKey(apiKey));
+       console.log("[ThreatIntel] VITE_VIRUSTOTAL_API_KEY is present:", apiKey.substring(0, 8) + "...");
     }
 
     const requestBody = { 
       type, 
-      target: sanitizedTarget, 
+      target, 
       sources, 
       apiKey: apiKey || undefined  // Ensure we don't send empty string
     };
     
     console.log("[ThreatIntel] Invoking edge function with body:", { 
       ...requestBody, 
-      apiKey: apiKey ? maskApiKey(apiKey) : 'NOT SET' 
+      apiKey: apiKey ? `${apiKey.substring(0, 8)}...` : 'NOT SET' 
     });
 
     const { data, error } = await supabase.functions.invoke('threat-intel', {

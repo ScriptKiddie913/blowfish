@@ -95,13 +95,10 @@ await makeCurrentUserAdmin();
 
 ### Required Environment Variables:
 ```env
-# SECURITY: Never commit actual values! Copy from .env.example
-VITE_SUPABASE_URL=your_supabase_url
+VITE_SUPABASE_URL=https://xpbcscgajcnxthokttoi.supabase.co
 VITE_SUPABASE_PUBLISHABLE_KEY=your_publishable_key
 VITE_SUPABASE_ANON_KEY=your_anon_key
 ```
-
-See [SECURITY.md](SECURITY.md) for complete security configuration guide.
 
 ### Database Tables:
 - ✅ `user_roles` - User role management

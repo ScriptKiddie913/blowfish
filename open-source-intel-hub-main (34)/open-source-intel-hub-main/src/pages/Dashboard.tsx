@@ -39,8 +39,8 @@ const PanicButton = React.lazy(() => import("@/components/osint/PanicButton").th
 const ReportButton = React.lazy(() => import("@/components/osint/ReportButton").then(module => ({ default: module.ReportButton })));
 const AdminPanel = React.lazy(() => import("@/components/osint/AdminPanel").then(module => ({ default: module.AdminPanel })));
 
-// SECURITY: Perplexity API Configuration - Load from environment
-const PERPLEXITY_API_KEY = import.meta.env.VITE_PERPLEXITY_API_KEY;
+// Perplexity API Configuration
+const PERPLEXITY_API_KEY = "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";
 const PERPLEXITY_API_URL = "https://api.perplexity.ai/chat/completions";
 
 import {

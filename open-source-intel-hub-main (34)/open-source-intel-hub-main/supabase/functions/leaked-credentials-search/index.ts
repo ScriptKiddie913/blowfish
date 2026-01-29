@@ -51,23 +51,13 @@ serve(async (req) => {
 
     console.log(`[LeakedCredentials] Searching Neon DB for: ${searchQuery}, type: ${searchType}`);
 
-    // SECURITY: Neon DB Connection - Load credentials from environment
-    const dbUser = Deno.env.get('NEON_DB_USER') || 'neondb_owner';
-    const dbPassword = Deno.env.get('NEON_DB_PASSWORD');
-    const dbName = Deno.env.get('NEON_DB_NAME') || 'neondb';
-    const dbHost = Deno.env.get('NEON_DB_HOST') || 'ep-still-field-ahnly324-pooler.c-3.us-east-1.aws.neon.tech';
-    const dbPort = parseInt(Deno.env.get('NEON_DB_PORT') || '5432');
-    
-    if (!dbPassword) {
-      throw new Error('Database password not configured. Please set NEON_DB_PASSWORD environment variable.');
-    }
-    
+    // Neon DB Connection
     const client = new Client({
-      user: dbUser,
-      password: dbPassword,
-      database: dbName,
-      hostname: dbHost,
-      port: dbPort,
+      user: "neondb_owner",
+      password: "npg_sMO8u1jAXDRB",
+      database: "neondb",
+      hostname: "ep-still-field-ahnly324-pooler.c-3.us-east-1.aws.neon.tech",
+      port: 5432,
       tls: {
         enabled: true,
         enforce: true,

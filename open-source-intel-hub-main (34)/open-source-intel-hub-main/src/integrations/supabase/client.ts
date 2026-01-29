@@ -2,18 +2,8 @@
 import { createClient } from '@supabase/supabase-js';
 import type { Database } from './types';
 
-// SECURITY: All credentials must come from environment variables
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
-const SUPABASE_PUBLISHABLE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY || import.meta.env.VITE_SUPABASE_ANON_KEY;
-
-// Validate required environment variables
-if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY) {
-  throw new Error(
-    'Missing required Supabase environment variables. Please check your .env file:\n' +
-    '- VITE_SUPABASE_URL is required\n' +
-    '- VITE_SUPABASE_ANON_KEY or VITE_SUPABASE_PUBLISHABLE_KEY is required'
-  );
-}
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://xpbcscgajcnxthokttoi.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY || import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhwYmNzY2dhamNueHRob2t0dG9pIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY0ODQ2MTAsImV4cCI6MjA4MjA2MDYxMH0.vuLs7cU_Mm2Wp6Zzva3zXu8iniEtnakIHf0XMhGicN0';
 
 // Import the supabase client like this:
 // import { supabase } from "@/integrations/supabase/client";
